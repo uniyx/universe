@@ -38,21 +38,30 @@ a:hover {
 }
 
 .objekt-card {
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     border: none;
     background-color: none;
     border-radius: 5px;
     transition: transform 0.2s;
 }
 
-.objekt-card:hover {
-    transform: scale(1.03);
+.objekt-image {
+    transition: transform 0.3s; /* This ensures smooth transition for both hover and un-hover */
+}
+
+.objekt-card .objekt-image:hover {
+    transform: scale(1.05);
 }
 
 .objekt-image {
     width: 100%;
     height: auto;
+    margin-bottom: 5px;
     border-radius: 5px 5px 0 0;
+}
+
+.objekt-info p {
+    margin-bottom: 5px;
 }
 
 /* Styles for search bar */

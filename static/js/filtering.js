@@ -21,7 +21,7 @@ let loading = false;
 
 function createObjektElem(objekt) {
     const colElem = document.createElement('div');
-    colElem.className = 'col';
+    colElem.className = 'col mt-2';
 
     const cardElem = document.createElement('div');
     cardElem.className = 'objekt-card';
@@ -31,10 +31,21 @@ function createObjektElem(objekt) {
     imgElem.src = objekt.thumbnailImage;
     imgElem.alt = `Objekt ${objekt.objektNo}`;
 
+    // Add Member name and CollectionNo
+    const infoElem = document.createElement('div');
+    infoElem.className = 'objekt-info';
+
+    const memberElem = document.createElement('p');
+    memberElem.innerText = `${objekt.member} ${objekt.collectionNo}`;
+
+    infoElem.appendChild(memberElem);
+
     cardElem.appendChild(imgElem);
+    cardElem.appendChild(infoElem);
     colElem.appendChild(cardElem);
     return colElem;
 }
+
 
 async function fetchAddress(query) {
     const response = await fetch(`https://api.cosmo.fans/user/v1/search?query=${query}&sort=newest`);
