@@ -72,6 +72,9 @@ async function loadObjekts() {
     const response = await fetch(apiUrl);
     const data = await response.json();
 
+    // Update the total objekts count
+    document.getElementById('objektCount').textContent = `${data.total || 0} Objekts owned`;
+
     if (!data.hasNext) {
         nextStartAfter = null;
         hasMore = false;  // Set hasMore to false when there's no next page
@@ -135,16 +138,13 @@ document.addEventListener('DOMContentLoaded', function() {
         address = addr;
         console.log(address)
         loadObjekts();
+
+        // Directly display the userQuery as the user's name
+        document.getElementById('userName').textContent = userQuery;
     }).catch(error => {
         console.error(error);
         alert("Failed to fetch address. Please try again later.");
     });
-
-    // Add event listeners to the filter dropdowns
-    const memberFilter = document.getElementById('memberFilter');
-    const seasonFilter = document.getElementById('seasonFilter');
-    const classFilter = document.getElementById('classFilter');
-    const transferableFilter = document.getElementById('transferableFilter');
 });
 
 // Handle infinite scroll

@@ -6,56 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Objekts</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #181818;
-            color: #FFFFFF;
-        }
-
-        .objekt-card {
-            margin-bottom: 20px;
-            border: none;
-            background-color: #2a2a2a;
-            border-radius: 5px;
-        }
-
-        .objekt-image {
-            width: 100%;
-            height: auto;
-            border-radius: 5px 5px 0 0;
-        }
-    </style>
+    <link rel="stylesheet" href="static/css/cosmo-theme.css">
 </head>
 
 <body>
     <div class="container mt-5">
-        <!-- Filter UI -->
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <select id="memberFilter" class="form-select">
-                    <option selected value="">Filter by Member</option>
-                    <!-- Options populated by filtering.js -->
-                </select>
-            </div>
-            <div class="col-md-3">
-                <select id="seasonFilter" class="form-select">
-                    <option selected value="">Filter by Season</option>
-                    <!-- Options populated by filtering.js -->
-                </select>
-            </div>
-            <div class="col-md-3">
-                <select id="classFilter" class="form-select">
-                    <option selected value="">Filter by Class</option>
-                    <!-- Options populated by filtering.js -->
-                </select>
-            </div>
-            <div class="col-md-3">
-                <select id="transferableFilter" class="form-select">
-                    <option selected value="">Filter by Transferability</option>
-                    <option value="true">Transferable</option>
-                    <option value="false">Non-Transferable</option>
-                </select>
-            </div>
+        <div class="header">
+            <h1 id="userName">Loading Username...</h1>
+            <h2 id="objektCount">Loading Objekts...</h2>
+        </div>        
+
+        <div class="filter-bar d-flex justify-content-between">
+            <select id="memberFilter" class="form-select dark-dropdown">
+                <option selected value="">Filter by Member</option>
+                <!-- Options populated dynamically -->
+            </select>
+            <select id="seasonFilter" class="form-select dark-dropdown">
+                <option selected value="">Filter by Season</option>
+                <!-- Options populated dynamically -->
+            </select>
+            <select id="classFilter" class="form-select dark-dropdown">
+                <option selected value="">Filter by Class</option>
+                <!-- Options populated dynamically -->
+            </select>
+            <select id="transferableFilter" class="form-select dark-dropdown">
+                <option selected value="">Filter by Transferability</option>
+                <option value="true">Transferable</option>
+                <option value="false">Non-Transferable</option>
+            </select>
         </div>
 
         <div id="objektGrid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
@@ -63,7 +41,6 @@
         </div>
     </div>
 
-    <!-- Include filtering.js -->
     <script src="static/js/filtering.js"></script>
 </body>
 
