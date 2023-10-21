@@ -29,82 +29,42 @@
 
 <body>
     <div class="container mt-5">
+        <!-- Filter UI -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <select id="memberFilter" class="form-select">
+                    <option selected value="">Filter by Member</option>
+                    <!-- Options populated by filtering.js -->
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select id="seasonFilter" class="form-select">
+                    <option selected value="">Filter by Season</option>
+                    <!-- Options populated by filtering.js -->
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select id="classFilter" class="form-select">
+                    <option selected value="">Filter by Class</option>
+                    <!-- Options populated by filtering.js -->
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select id="transferableFilter" class="form-select">
+                    <option selected value="">Filter by Transferability</option>
+                    <option value="true">Transferable</option>
+                    <option value="false">Non-Transferable</option>
+                </select>
+            </div>
+        </div>
+
         <div id="objektGrid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
             <!-- Objekts will be appended here -->
         </div>
     </div>
 
-    <script>
-        let address = '';
-        let nextStartAfter = null;
-        let loading = false;
-
-        const gridElem = document.getElementById('objektGrid');
-
-        function createObjektElem(objekt) {
-            const colElem = document.createElement('div');
-            colElem.className = 'col';
-
-            const cardElem = document.createElement('div');
-            cardElem.className = 'objekt-card';
-
-            const imgElem = document.createElement('img');
-            imgElem.className = 'objekt-image';
-            imgElem.src = objekt.thumbnailImage;
-            imgElem.alt = `Objekt ${objekt.objektNo}`;
-
-            cardElem.appendChild(imgElem);
-            colElem.appendChild(cardElem);
-            return colElem;
-        }
-
-        async function fetchAddress(query) {
-            const response = await fetch(`https://api.cosmo.fans/user/v1/search?query=${query}&sort=newest`);
-            const data = await response.json();
-            return data.results[0].address;
-        }
-
-        async function loadObjekts() {
-            if (loading) return;
-            loading = true;
-
-            const apiUrl = nextStartAfter ?
-                `https://api.cosmo.fans/objekt/v1/owned-by/${address}?start_after=${nextStartAfter}&sort=newest` :
-                `https://api.cosmo.fans/objekt/v1/owned-by/${address}?sort=newest`;
-
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-
-            if (!data.hasNext) {
-                nextStartAfter = null;
-            } else {
-                nextStartAfter = data.nextStartAfter;
-            }
-
-            for (const objekt of data.objekts) {
-                const objektElem = createObjektElem(objekt);
-                gridElem.appendChild(objektElem);
-            }
-
-            loading = false;
-        }
-
-        window.onscroll = function() {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                loadObjekts();
-            }
-        };
-
-        const queryString = window.location.pathname.split('/');
-        const userQuery = queryString[queryString.length - 1];
-        fetchAddress(userQuery).then(addr => {
-            address = addr;
-            loadObjekts();
-        }).catch(error => {
-            console.error(error);
-            alert("Failed to fetch address. Please try again later.");
-        });
-    </script>
+    <!-- Include filtering.js -->
+    <script src="static/js/filtering.js"></script>
 </body>
 
 </html>
