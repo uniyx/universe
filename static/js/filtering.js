@@ -28,8 +28,17 @@ function createObjektElem(objekt) {
 
     const imgElem = document.createElement('img');
     imgElem.className = 'objekt-image';
-    imgElem.src = objekt.thumbnailImage;
+    imgElem.src = objekt.frontImage; // Starting with the frontImage
     imgElem.alt = `Objekt ${objekt.objektNo}`;
+
+    // Toggle the img source between frontImage and backImage when clicked
+    imgElem.addEventListener('click', function() {
+        if (imgElem.src === objekt.frontImage) {
+            imgElem.src = objekt.backImage;
+        } else {
+            imgElem.src = objekt.frontImage;
+        }
+    });
 
     // Add Member name and CollectionNo
     const infoElem = document.createElement('div');
@@ -45,6 +54,7 @@ function createObjektElem(objekt) {
     colElem.appendChild(cardElem);
     return colElem;
 }
+
 
 
 async function fetchAddress(query) {
