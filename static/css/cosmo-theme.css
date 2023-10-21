@@ -123,3 +123,42 @@ a:hover {
     background-color: #555;
     color: #FFF;
 }
+
+/* Dark dropdown styling */
+.dropdown-menu.dark-dropdown {
+    background-color: #2e2e2e; /* Dark background */
+    border-color: #555;
+}
+
+.dark-dropdown .dropdown-item {
+    color: #ddd; /* Light text on dark background */
+}
+
+.dark-dropdown .dropdown-item:focus,
+.dark-dropdown .dropdown-item:hover {
+    background-color: #454545; /* Slightly lighter background for hover/focus */
+    color: #fff; /* White text on hover/focus */
+}
+
+/* Improved margins and padding */
+.checkbox-menu li {
+    margin: 0;
+    padding: 5px 10px; /* Adjust as needed */
+}
+
+.checkbox-menu li label {
+    margin-bottom: 0;
+    padding-left: 5px;
+}
+
+.btn-secondary.dropdown-toggle {
+    background-color: #343a40; /* Bootstrap's .bg-dark color */
+    border-color: #555;
+    color: #ddd;
+}
+
+.btn-secondary.dropdown-toggle:hover,
+.btn-secondary.dropdown-toggle:focus {
+    background-color: #232323; /* Darker version for hover/focus */
+    color: #fff;
+}

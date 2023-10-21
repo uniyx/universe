@@ -32,7 +32,7 @@ function createObjektElem(objekt) {
     imgElem.alt = `Objekt ${objekt.objektNo}`;
 
     // Toggle the img source between frontImage and backImage when clicked
-    imgElem.addEventListener('click', function() {
+    imgElem.addEventListener('click', function () {
         if (imgElem.src === objekt.frontImage) {
             imgElem.src = objekt.backImage;
         } else {
@@ -75,29 +75,30 @@ async function loadObjekts() {
     let apiUrl = `https://api.cosmo.fans/objekt/v1/owned-by/${address}?sort=newest`;
 
     // Append filtering parameters
-    const memberValues = Array.from(document.querySelectorAll('#memberFilter input:checked'))
-    .map(input => input.value);
+    const memberValues = Array.from(document.querySelectorAll('#memberFilterList input:checked'))
+        .map(input => input.value);
     if (memberValues.length > 0) {
         apiUrl += `&member=${memberValues.join(',')}`;
     }
 
-    const seasonValues = Array.from(document.getElementById('seasonFilter').selectedOptions)
+    const seasonValues = Array.from(document.querySelectorAll('#seasonFilterList input:checked'))
         .map(option => option.value);
     if (seasonValues.length > 0) {
         apiUrl += `&season=${seasonValues.join(',')}`;
     }
 
-    const classValues = Array.from(document.getElementById('classFilter').selectedOptions)
+    const classValues = Array.from(document.querySelectorAll('#classFilterList input:checked'))
         .map(option => option.value);
     if (classValues.length > 0) {
         apiUrl += `&class=${classValues.join(',')}`;
     }
 
-    const transferableValue = document.getElementById('transferableFilter').value;
-    if (transferableValue !== "") {
-        apiUrl += `&transferable=${transferableValue}`;
+    const transferableValues = Array.from(document.querySelectorAll('#transferableFilterList input:checked'))
+        .map(input => input.value);
+    console.log(transferableValues);
+    if (transferableValues.length === 1) {
+        apiUrl += `&transferable=${transferableValues[0]}`;
     }
-
 
     if (nextStartAfter) apiUrl += `&start_after=${nextStartAfter}`;
 
@@ -135,45 +136,38 @@ function handleFilterChange() {
 }
 
 // Initialization
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Populate the multi-select dropdown for members
-    members.forEach(member => {
-        let li = document.createElement('li');
-        let input = document.createElement('input');
-        input.type = 'checkbox';
-        input.id = `member-${member}`;
-        input.value = member;
-        input.classList.add('form-check-input');  // Bootstrap class
+    function populateMultiSelectDropdown(array, elementId) {
+        array.forEach(item => {
+            let li = document.createElement('li');
 
-        let label = document.createElement('label');
-        label.htmlFor = `member-${member}`;
-        label.innerText = member;
-        label.classList.add('form-check-label');  // Bootstrap class
+            let input = document.createElement('input');
+            input.type = 'checkbox';
+            input.id = `${elementId}-${item}`;
+            input.value = item;
+            input.classList.add('form-check-input');  // Bootstrap class
 
-        li.appendChild(input);
-        li.appendChild(label);
-        document.getElementById('memberFilter').appendChild(li);
-    });
+            let label = document.createElement('label');
+            label.htmlFor = `${elementId}-${item}`;
+            label.innerText = item;
+            label.classList.add('form-check-label');  // Bootstrap class
 
-    seasons.forEach(season => {
-        let option = document.createElement('option');
-        option.value = season;
-        option.innerText = season;
-        document.getElementById('seasonFilter').appendChild(option);
-    });
+            li.appendChild(input);
+            li.appendChild(label);
+            document.getElementById(elementId).appendChild(li);
+        });
+    }
 
-    classes.forEach(cls => {
-        let option = document.createElement('option');
-        option.value = cls;
-        option.innerText = cls;
-        document.getElementById('classFilter').appendChild(option);
-    });
+    populateMultiSelectDropdown(members, 'memberFilterList');
+    populateMultiSelectDropdown(seasons, 'seasonFilterList');
+    populateMultiSelectDropdown(classes, 'classFilterList');
 
     // Attach event listeners to the filters
-    document.getElementById('memberFilter').addEventListener('change', handleFilterChange);
-    document.getElementById('seasonFilter').addEventListener('change', handleFilterChange);
-    document.getElementById('classFilter').addEventListener('change', handleFilterChange);
-    document.getElementById('transferableFilter').addEventListener('change', handleFilterChange);
+    document.getElementById('memberFilterList').addEventListener('change', handleFilterChange);
+    document.getElementById('seasonFilterList').addEventListener('change', handleFilterChange);
+    document.getElementById('classFilterList').addEventListener('change', handleFilterChange);
+    document.getElementById('transferableFilterList').addEventListener('change', handleFilterChange);
 
     // Load initial objekts
     const queryString = window.location.pathname.split('/');
@@ -191,8 +185,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
 // Handle infinite scroll
-window.onscroll = function() {
+window.onscroll = function () {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
         loadObjekts();
     }
