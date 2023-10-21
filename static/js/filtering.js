@@ -75,17 +75,29 @@ async function loadObjekts() {
     let apiUrl = `https://api.cosmo.fans/objekt/v1/owned-by/${address}?sort=newest`;
 
     // Append filtering parameters
-    const memberValue = document.getElementById('memberFilter').value;
-    if (memberValue) apiUrl += `&member=${memberValue}`;
+    const memberValues = Array.from(document.querySelectorAll('#memberFilter input:checked'))
+    .map(input => input.value);
+    if (memberValues.length > 0) {
+        apiUrl += `&member=${memberValues.join(',')}`;
+    }
 
-    const seasonValue = document.getElementById('seasonFilter').value;
-    if (seasonValue) apiUrl += `&season=${seasonValue}`;
+    const seasonValues = Array.from(document.getElementById('seasonFilter').selectedOptions)
+        .map(option => option.value);
+    if (seasonValues.length > 0) {
+        apiUrl += `&season=${seasonValues.join(',')}`;
+    }
 
-    const classValue = document.getElementById('classFilter').value;
-    if (classValue) apiUrl += `&class=${classValue}`;
+    const classValues = Array.from(document.getElementById('classFilter').selectedOptions)
+        .map(option => option.value);
+    if (classValues.length > 0) {
+        apiUrl += `&class=${classValues.join(',')}`;
+    }
 
     const transferableValue = document.getElementById('transferableFilter').value;
-    if (transferableValue) apiUrl += `&transferable=${transferableValue}`;
+    if (transferableValue !== "") {
+        apiUrl += `&transferable=${transferableValue}`;
+    }
+
 
     if (nextStartAfter) apiUrl += `&start_after=${nextStartAfter}`;
 
@@ -124,12 +136,23 @@ function handleFilterChange() {
 
 // Initialization
 document.addEventListener('DOMContentLoaded', function() {
-    // Populate dropdowns using the existing logic, e.g.:
+    // Populate the multi-select dropdown for members
     members.forEach(member => {
-        let option = document.createElement('option');
-        option.value = member;
-        option.innerText = member;
-        document.getElementById('memberFilter').appendChild(option);
+        let li = document.createElement('li');
+        let input = document.createElement('input');
+        input.type = 'checkbox';
+        input.id = `member-${member}`;
+        input.value = member;
+        input.classList.add('form-check-input');  // Bootstrap class
+
+        let label = document.createElement('label');
+        label.htmlFor = `member-${member}`;
+        label.innerText = member;
+        label.classList.add('form-check-label');  // Bootstrap class
+
+        li.appendChild(input);
+        li.appendChild(label);
+        document.getElementById('memberFilter').appendChild(li);
     });
 
     seasons.forEach(season => {

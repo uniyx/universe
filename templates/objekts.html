@@ -17,18 +17,26 @@
         </div>        
 
         <div class="filter-bar d-flex justify-content-between">
-            <select id="memberFilter" class="form-select dark-dropdown">
-                <option selected value="">Filter by Member</option>
-                <!-- Options populated dynamically -->
-            </select>
+            <!-- Member Multi-select Dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="memberDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filter by Member
+                </button>
+                <ul class="dropdown-menu checkbox-menu allow-focus" id="memberFilter" aria-labelledby="memberDropdown">
+                    <!-- Checkboxes for members will be populated dynamically -->
+                </ul>
+            </div>
+            
             <select id="seasonFilter" class="form-select dark-dropdown">
                 <option selected value="">Filter by Season</option>
                 <!-- Options populated dynamically -->
             </select>
+            
             <select id="classFilter" class="form-select dark-dropdown">
                 <option selected value="">Filter by Class</option>
                 <!-- Options populated dynamically -->
             </select>
+            
             <select id="transferableFilter" class="form-select dark-dropdown">
                 <option selected value="">Filter by Transferability</option>
                 <option value="true">Transferable</option>
@@ -41,6 +49,8 @@
         </div>
     </div>
 
+    <!-- Essential JS scripts for Bootstrap and your filtering.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="static/js/filtering.js"></script>
 </body>
 
