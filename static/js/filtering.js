@@ -28,15 +28,15 @@ function createObjektElem(objekt) {
 
     const imgElem = document.createElement('img');
     imgElem.className = 'objekt-image';
-    imgElem.src = objekt.frontImage; // Starting with the frontImage
+    imgElem.src = objekt.frontImage.replace('/4x', '/1x'); // Use 1x resolution for the frontImage
     imgElem.alt = `Objekt ${objekt.objektNo}`;
 
     // Toggle the img source between frontImage and backImage when clicked
     imgElem.addEventListener('click', function () {
-        if (imgElem.src === objekt.frontImage) {
-            imgElem.src = objekt.backImage;
+        if (imgElem.src === objekt.frontImage.replace('/4x', '/1x')) {
+            imgElem.src = objekt.backImage.replace('/4x', '/1x');
         } else {
-            imgElem.src = objekt.frontImage;
+            imgElem.src = objekt.frontImage.replace('/4x', '/1x');
         }
     });
 
@@ -54,6 +54,7 @@ function createObjektElem(objekt) {
     colElem.appendChild(cardElem);
     return colElem;
 }
+
 
 
 
@@ -107,7 +108,7 @@ async function loadObjekts() {
     const data = await response.json();
 
     // Update the total objekts count
-    document.getElementById('objektCount').textContent = `${data.total || 0} Objekts owned`;
+    document.getElementById('objektCount').textContent = `${data.total || 0} Objekts`;
 
     if (!data.hasNext) {
         nextStartAfter = null;
@@ -169,6 +170,13 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('classFilterList').addEventListener('change', handleFilterChange);
     document.getElementById('transferableFilterList').addEventListener('change', handleFilterChange);
 
+    // Stop click events from being propagated to parent
+    document.querySelectorAll('.dropdown-menu [data-bs-toggle="dropdown"]').forEach(function (element) {
+        element.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+    });
+
     // Load initial objekts
     const queryString = window.location.pathname.split('/');
     const userQuery = queryString[queryString.length - 1];
@@ -179,6 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Directly display the userQuery as the user's name
         document.getElementById('userName').textContent = userQuery;
+        document.getElementById('userETHAddress').textContent = address;
     }).catch(error => {
         console.error(error);
         alert("Failed to fetch address. Please try again later.");

@@ -11,56 +11,88 @@
 
 <body>
     <div class="container mt-5">
-        <div class="header">
-            <h1 id="userName">Loading Username...</h1>
-            <h2 id="objektCount">Loading Objekts...</h2>
-        </div>        
+        <!-- Profile and Objekt Count Section -->
+        <div class="header row pb-3">
+            <!-- Profile Section (left) -->
+            <div class="col-md-7 d-flex align-items-center">
+                <!-- Profile Image -->
+                <img src="https://static.cosmo.fans/uploads/images/img_profile_gallag@3x.png" alt="User Profile Image"
+                    class="me-3" style="width: 50px; height: 50px; border-radius: 50%;">
+                <!-- Username and ETH address -->
+                <div>
+                    <h1 id="userName" class="h4 mb-0">Loading Username...</h1>
+                    <p class="mb-0 text-muted" id="userETHAddress">Loading ETH Address...</p>
+                </div>
+            </div>
+            <!-- Objekt Count Section (right) -->
+            <div class="col-md-5 d-flex align-items-center justify-content-end">
+                <h2 id="objektCount" class="h4">Loading Objekts...</h2>
+            </div>
+        </div>
 
-        <div class="filter-bar d-flex justify-content-between">
-            <!-- Member Multi-select Dropdown -->
+        <div class="filter-bar d-flex justify-content-between align-items-center">
+            <!-- Member Multi-select Dropdown (Left side) -->
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="memberDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="memberDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
                     Filter by Member
                 </button>
-                <ul class="dropdown-menu checkbox-menu allow-focus dark-dropdown" id="memberFilterList" aria-labelledby="memberDropdown">
+                <ul class="dropdown-menu checkbox-menu allow-focus dark-dropdown" id="memberFilterList"
+                    aria-labelledby="memberDropdown">
                     <!-- Checkboxes for members will be populated dynamically -->
                 </ul>
             </div>
-        
-            <!-- Season Multi-select Dropdown -->
+
+            <!-- Combined Filters Dropdown (Right side) -->
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="seasonDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Filter by Season
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="combinedFilters"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Filter
                 </button>
-                <ul class="dropdown-menu checkbox-menu allow-focus dark-dropdown" id="seasonFilterList" aria-labelledby="seasonDropdown">
-                    <!-- Checkboxes for seasons will be populated dynamically -->
-                </ul>
-            </div>
-        
-            <!-- Class Multi-select Dropdown -->
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="classDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Filter by Class
-                </button>
-                <ul class="dropdown-menu checkbox-menu allow-focus dark-dropdown" id="classFilterList" aria-labelledby="classDropdown">
-                    <!-- Checkboxes for classes will be populated dynamically -->
-                </ul>
-            </div>
-        
-            <!-- Transferability Multi-select Dropdown -->
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="transferableDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Filter by Transferability
-                </button>
-                <ul class="dropdown-menu checkbox-menu allow-focus dark-dropdown" id="transferableFilterList" aria-labelledby="transferableDropdown">
-                    <!-- Checkboxes for transferability will be populated dynamically -->
-                    <li><input type="checkbox" value="true"> Transferable</li>
-                    <li><input type="checkbox" value="false"> Non-Transferable</li>
-                </ul>
+                <div class="dropdown-menu p-3 dark-dropdown" style="min-width: 250px;">
+                    <!-- Season Multi-select Dropdown -->
+                    <div class="mb-3">
+                        <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button"
+                            id="seasonDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            By Season
+                        </button>
+                        <ul class="dropdown-menu checkbox-menu allow-focus dark-dropdown" id="seasonFilterList"
+                            aria-labelledby="seasonDropdown">
+                            <!-- Checkboxes for seasons will be populated dynamically -->
+                        </ul>
+                    </div>
+
+                    <!-- Class Multi-select Dropdown -->
+                    <div class="mb-3">
+                        <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" id="classDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            By Class
+                        </button>
+                        <ul class="dropdown-menu checkbox-menu allow-focus dark-dropdown" id="classFilterList"
+                            aria-labelledby="classDropdown">
+                            <!-- Checkboxes for classes will be populated dynamically -->
+                        </ul>
+                    </div>
+
+                    <!-- Transferability Multi-select Dropdown -->
+                    <div>
+                        <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button"
+                            id="transferableDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            By Transferability
+                        </button>
+                        <ul class="dropdown-menu checkbox-menu allow-focus dark-dropdown" id="transferableFilterList"
+                            aria-labelledby="transferableDropdown">
+                            <!-- Checkboxes for transferability will be populated dynamically -->
+                            <li><input type="checkbox" value="true"> Transferable</li>
+                            <li><input type="checkbox" value="false"> Non-Transferable</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        
+
+
+
 
         <div id="objektGrid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
             <!-- Objekts will be appended here -->
@@ -70,6 +102,11 @@
     <!-- Essential JS scripts for Bootstrap and your filtering.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="static/js/filtering.js"></script>
+
+    
+    
+
+
 </body>
 
 </html>
