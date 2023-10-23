@@ -46,11 +46,24 @@ export function clearGrid() {
 
 export function handleFilterChange() {
     console.log("handleFilterChange called");
+    
+    // Reset the sorting back to "newest"
+    let activeSort = document.querySelector('#sortFilterList .clickable-option.active');
+    if (activeSort) {
+        activeSort.classList.remove('active');
+    }
+    let newestOption = document.querySelector('#sortFilterList .clickable-option:nth-child(1)');
+    if (newestOption) {
+        newestOption.classList.add('active');
+    }
+    document.getElementById('sortDropdown').innerText = 'Newest';
+
     clearGrid();
 
     // Emit a custom event indicating that the filters have changed
     document.dispatchEvent(new Event('filtersChanged'));
 }
+
 
 export function populateGrid(objekts) {
     for (const objekt of objekts) {
