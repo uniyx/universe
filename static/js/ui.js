@@ -1,5 +1,7 @@
 // ui.js
 
+import { loadObjekts } from './main.js';
+
 export const classes = [
     "Welcome", "First", "Special", "Double", "Zero"
 ];
@@ -44,6 +46,14 @@ export function clearGrid() {
     gridElem.innerHTML = '';
 }
 
+export function handleFilterChange() {
+    console.log("handleFilterChange called");
+    clearGrid();
+
+    // Emit a custom event indicating that the filters have changed
+    document.dispatchEvent(new Event('filtersChanged'));
+}
+
 export function populateGrid(objekts) {
     for (const objekt of objekts) {
         const objektElem = createObjektElem(objekt);
@@ -62,11 +72,15 @@ export function populateMultiSelectDropdown(array, elementId) {
         li.innerText = item;
 
         li.addEventListener('click', function (e) {
+            // Toggle the active state
             if (li.classList.contains('active')) {
                 li.classList.remove('active');
             } else {
                 li.classList.add('active');
             }
+
+            handleFilterChange();
+
             e.stopPropagation();
         });
 

@@ -8,7 +8,7 @@ let nextStartAfter = null;
 let loading = false;
 let hasMore = true;
 
-async function loadObjekts() {
+export async function loadObjekts() {
     console.log("loadObjekts called");
 
     if (loading || !hasMore) return;
@@ -38,25 +38,15 @@ async function loadObjekts() {
     }
 }
 
-function handleFilterChange() {
-    console.log("handleFilterChange called");
-    ui.clearGrid();
+function fetchDataAfterFilterChange() {
+    console.log("fetchDataAfterFilterChange called");
     hasMore = true;
     nextStartAfter = null;
     loadObjekts();
 }
 
-function addEventListenersToDropdown(elementId) {
-    // Get all the 'li' elements inside the provided dropdown element ID **AFTER** they've been appended
-    const filterItems = document.querySelectorAll(`#${elementId} li.clickable-option`);
-
-    // Add an event listener to each 'li' element
-    filterItems.forEach(item => {
-        item.addEventListener('click', function () {
-            handleFilterChange();
-        });
-    });
-}
+// Listen for the custom event from ui.js
+document.addEventListener('filtersChanged', fetchDataAfterFilterChange);
 
 document.addEventListener('DOMContentLoaded', function () {
     ui.populateMultiSelectDropdown(ui.classes, 'classFilterList');
@@ -79,23 +69,16 @@ document.addEventListener('DOMContentLoaded', function () {
         // Populate members from TRIPLES
         ui.populateMultiSelectDropdown(members.tripleSMembers, 'memberFilterList');
     
-        // Add event listeners to 'memberFilterList' dropdown options
-        addEventListenersToDropdown('memberFilterList');
-    
     }).catch(error => {
         console.error('Error fetching members:', error);
     });
     
     api.fetchSeasons().then(seasonTitles => {
         ui.populateMultiSelectDropdown(seasonTitles, 'seasonFilterList');
-    
-        // Add event listeners to 'seasonFilterList' dropdown options
-        addEventListenersToDropdown('seasonFilterList');
         
     }).catch(error => {
         console.error('Error fetching seasons:', error);
     });
-    
 
     document.getElementById('resetFilters').addEventListener('click', function () {
         ui.resetAllFilters();
