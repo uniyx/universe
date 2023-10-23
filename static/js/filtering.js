@@ -170,10 +170,23 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('classFilterList').addEventListener('change', handleFilterChange);
     document.getElementById('transferableFilterList').addEventListener('change', handleFilterChange);
 
-    // Stop click events from being propagated to parent
-    document.querySelectorAll('.dropdown-menu [data-bs-toggle="dropdown"]').forEach(function (element) {
+    // Stop click events from being propagated to parent dropdowns and prevent default Bootstrap behavior
+    document.querySelectorAll('.dropdown-menu .dropdown-toggle').forEach(function (element) {
         element.addEventListener('click', function (e) {
-            e.stopPropagation();
+            e.stopPropagation(); // Prevents the parent dropdown from closing
+            e.preventDefault();  // Prevent default Bootstrap dropdown behavior
+
+            let currentDropdownMenu = e.target.nextElementSibling;
+
+            // Close all other inner dropdown-menus
+            document.querySelectorAll('.dropdown-menu .dropdown-menu').forEach(innerMenu => {
+                if (innerMenu !== currentDropdownMenu && innerMenu.classList.contains('show')) {
+                    innerMenu.classList.remove('show');
+                }
+            });
+
+            // Toggle the clicked dropdown menu
+            currentDropdownMenu.classList.toggle('show');
         });
     });
 
