@@ -139,6 +139,11 @@ a:hover {
     color: #fff; /* White text on hover/focus */
 }
 
+.checkbox-menu {
+    max-height: 500px;  /* or whatever maximum height you prefer */
+    overflow-y: auto;
+}
+
 /* Improved margins and padding */
 .checkbox-menu li {
     margin: 0;

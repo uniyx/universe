@@ -1,17 +1,5 @@
-// Define filter options
-const members = [
-    "Seoyeon", "Hyerin", "Jiwoo", "Chaeyeon",
-    "Yooyeon", "Soomin", "Nakyoung", "Yubin",
-    "Kaede", "Dahyun", "Kotone", "Yeonji",
-    "Nien", "Sohyun", "Xinyu", "Mayu"
-];
-
 const classes = [
     "Welcome", "First", "Special", "Double", "Zero"
-];
-
-const seasons = [
-    "Atom01", "Binary01", "Cream01"
 ];
 
 const gridElem = document.getElementById('objektGrid');
@@ -160,8 +148,37 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    populateMultiSelectDropdown(members, 'memberFilterList');
-    populateMultiSelectDropdown(seasons, 'seasonFilterList');
+    // Fetch members from both tripleS and artms, then combine and populate
+    Promise.all([
+        fetch('https://api.cosmo.fans/artist/v1/tripleS').then(response => response.json()),
+        fetch('https://api.cosmo.fans/artist/v1/artms').then(response => response.json())
+    ]).then(([tripleSData, artmsData]) => {
+        const tripleSMembers = tripleSData.artist.members.map(member => member.name);
+        const artmsMembers = artmsData.artist.members.map(member => member.name);
+        
+        // First, populate members from ARTMS
+        populateMultiSelectDropdown(artmsMembers, 'memberFilterList');
+    
+        // Then, add a separator
+        const separator = document.createElement('li');
+        separator.className = 'dropdown-divider';  // Bootstrap class for a separator
+        document.getElementById('memberFilterList').appendChild(separator);
+    
+        // Finally, populate members from TRIPLES
+        populateMultiSelectDropdown(tripleSMembers, 'memberFilterList');
+    
+    })
+    .catch(error => console.error('Error fetching members:', error));
+
+    // Fetch seasons and populate
+    fetch('https://api.cosmo.fans/season/v1/')
+    .then(response => response.json())
+    .then(data => {
+        const seasonTitles = data.seasons.map(season => season.title);
+        populateMultiSelectDropdown(seasonTitles, 'seasonFilterList');
+    })
+    .catch(error => console.error('Error fetching seasons:', error));
+
     populateMultiSelectDropdown(classes, 'classFilterList');
 
     // Attach event listeners to the filters
