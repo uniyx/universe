@@ -131,29 +131,29 @@ document.addEventListener('DOMContentLoaded', function () {
             let li = document.createElement('li');
             li.className = 'clickable-option';
             li.innerText = item;
-    
-            li.addEventListener('click', function(e) {
+
+            li.addEventListener('click', function (e) {
                 // Toggle the active state
                 if (li.classList.contains('active')) {
                     li.classList.remove('active');
                 } else {
                     li.classList.add('active');
                 }
-                
+
                 // Retrieve all active items for this dropdown
                 let activeItems = [...document.querySelectorAll(`#${elementId} .clickable-option.active`)]
-                    .map(activeItem => activeItem.innerText);
-    
-                    handleFilterChange();
+                    .map(activeItem => activeItem.getAttribute('data-value') || activeItem.innerText);
+
+                handleFilterChange();
                 console.log(`Selected items for ${elementId}:`, activeItems);
-                
+
                 // Prevent the dropdown from closing after a selection
                 e.stopPropagation();
             });
-    
+
             document.getElementById(elementId).appendChild(li);
         });
-    }    
+    }
 
     // Fetch members from both tripleS and artms, then combine and populate
     Promise.all([
@@ -162,32 +162,32 @@ document.addEventListener('DOMContentLoaded', function () {
     ]).then(([tripleSData, artmsData]) => {
         const tripleSMembers = tripleSData.artist.members.map(member => member.name);
         const artmsMembers = artmsData.artist.members.map(member => member.name);
-        
+
         // First, populate members from ARTMS
         populateMultiSelectDropdown(artmsMembers, 'memberFilterList');
-    
+
         // Then, add a separator
         const separator = document.createElement('li');
         separator.className = 'dropdown-divider';  // Bootstrap class for a separator
         document.getElementById('memberFilterList').appendChild(separator);
-    
+
         // Finally, populate members from TRIPLES
         populateMultiSelectDropdown(tripleSMembers, 'memberFilterList');
-    
+
     })
-    .catch(error => console.error('Error fetching members:', error));
+        .catch(error => console.error('Error fetching members:', error));
 
     // Fetch seasons and populate
     fetch('https://api.cosmo.fans/season/v1/')
-    .then(response => response.json())
-    .then(data => {
-        const seasonTitles = data.seasons.map(season => season.title);
-        populateMultiSelectDropdown(seasonTitles, 'seasonFilterList');
-    })
-    .catch(error => console.error('Error fetching seasons:', error));
+        .then(response => response.json())
+        .then(data => {
+            const seasonTitles = data.seasons.map(season => season.title);
+            populateMultiSelectDropdown(seasonTitles, 'seasonFilterList');
+        })
+        .catch(error => console.error('Error fetching seasons:', error));
 
     populateMultiSelectDropdown(classes, 'classFilterList');
-
+    populateMultiSelectDropdown(['True', 'False'], 'transferableFilterList');
     // Stop click events from being propagated to parent dropdowns and prevent default Bootstrap behavior
     document.querySelectorAll('.dropdown-menu .dropdown-toggle').forEach(function (element) {
         element.addEventListener('click', function (e) {
@@ -206,6 +206,17 @@ document.addEventListener('DOMContentLoaded', function () {
             // Toggle the clicked dropdown menu
             currentDropdownMenu.classList.toggle('show');
         });
+    });
+
+    document.getElementById('resetFilters').addEventListener('click', function () {
+        // Remove the active state from all filter options
+        const activeOptions = document.querySelectorAll('.clickable-option.active');
+        activeOptions.forEach(option => {
+            option.classList.remove('active');
+        });
+
+        // Then, you can reload the Objekts if needed
+        handleFilterChange();
     });
 
     // Load initial objekts

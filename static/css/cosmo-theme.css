@@ -93,6 +93,11 @@ a:hover {
     border: 1px solid #666; /* Border color */
 }
 
+#resetFilters {
+    background-color: #343a40;
+    border-color: #555
+}
+
 /* Custom Dropdown CSS */
 .dropdown-item.bg-dark {
     background-color: #343a40 !important; /* Bootstrap's dark gray */
