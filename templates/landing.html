@@ -8,6 +8,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Search Users</title>
     <link rel="stylesheet" href="static/css/cosmo-theme.css">
+    <link rel="stylesheet" href="static/css/landing.css">
 </head>
 
 <body>
@@ -37,43 +38,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
-    <!-- Custom Script -->
-    <script>
-        $(document).ready(function () {
-            $("#nickname").on("input", function () {
-                const query = $(this).val();
+    <!-- Custom Scripts -->
+    <script type="module" src="static/js/api.js"></script>
+    <script type="module" src="static/js/landing.js"></script>
 
-                // Enforce minimum search query length of 4
-                if (query.length < 4) {
-                    $("#searchResults").empty().removeClass('show');
-                    return;
-                }
-
-                $.get(`/api/search/${query}`, function (data) {
-                    if (Array.isArray(data) && data.length) {
-                        let htmlResults = '';
-                        data.slice(0, 6).forEach(user => {
-                            htmlResults += `
-                        <a class="dropdown-item" href="/${user.nickname}">
-                            ${user.nickname}
-                        </a>`;
-                        });
-
-                        $("#searchResults").html(htmlResults).addClass('show');
-                    } else {
-                        console.error("Received unexpected data format:", data);
-                    }
-                });
-            });
-
-            // Directly navigate to user's page on form submission
-            $("#searchForm").on("submit", function (e) {
-                e.preventDefault();
-                const query = $("#nickname").val();
-                window.location.href = `/${query}`;
-            });
-        });
-    </script>
 </body>
 
 </html>

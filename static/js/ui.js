@@ -1,7 +1,5 @@
 // ui.js
 
-import { loadObjekts } from './main.js';
-
 export const classes = [
     "Welcome", "First", "Special", "Double", "Zero"
 ];
@@ -66,6 +64,7 @@ export function updateTotalObjektsCount(count) {
 }
 
 export function populateMultiSelectDropdown(array, elementId) {
+    console.log(elementId);
     array.forEach(item => {
         let li = document.createElement('li');
         li.className = 'clickable-option';
@@ -88,11 +87,31 @@ export function populateMultiSelectDropdown(array, elementId) {
     });
 }
 
+document.getElementById('sortFilterList').addEventListener('click', function(e) {
+    // Check if the clicked element has the class 'clickable-option'
+    if (e.target.classList.contains('clickable-option')) {
+        // Deselect other options
+        this.querySelectorAll('.clickable-option.active').forEach(activeElem => {
+            activeElem.classList.remove('active');
+        });
+
+        // Select the clicked option
+        e.target.classList.add('active');
+
+        // Update the button label to reflect the selected option
+        document.getElementById('sortDropdown').innerText = e.target.innerText;
+        handleFilterChange();
+    }
+});
+
+
 export function resetAllFilters() {
     const activeOptions = document.querySelectorAll('.clickable-option.active');
     activeOptions.forEach(option => {
         option.classList.remove('active');
     });
+
+    handleFilterChange();
 }
 
 export function addDropDownToggleBehaviour() {
@@ -133,6 +152,11 @@ export const filters = {
 
     get transferableValues() {
         return Array.from(document.querySelectorAll('#transferableFilterList .clickable-option.active'))
+            .map(li => li.innerText);
+    },
+
+    get sortOption() {
+        return Array.from(document.querySelectorAll('#sortFilterList .clickable-option.active'))
             .map(li => li.innerText);
     }
 };

@@ -18,9 +18,10 @@ export async function loadObjekts() {
     const seasonValues = ui.filters.seasonValues;
     const classValues = ui.filters.classValues;
     const transferableValues = ui.filters.transferableValues;
+    const sortOption = ui.filters.sortOption;
 
     try {
-        const data = await api.fetchObjekts(address, nextStartAfter, memberValues, seasonValues, classValues, transferableValues);
+        const data = await api.fetchObjekts(address, nextStartAfter, memberValues, seasonValues, classValues, transferableValues, sortOption);
 
         ui.updateTotalObjektsCount(data.total);
 
@@ -49,6 +50,7 @@ function fetchDataAfterFilterChange() {
 document.addEventListener('filtersChanged', fetchDataAfterFilterChange);
 
 document.addEventListener('DOMContentLoaded', function () {
+    //ui.populateMultiSelectDropdown(['oldest','newest','noAscending','noDescending'], 'sortFilterList');
     ui.populateMultiSelectDropdown(ui.classes, 'classFilterList');
     ui.populateMultiSelectDropdown(['True', 'False'], 'transferableFilterList');
 
@@ -82,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('resetFilters').addEventListener('click', function () {
         ui.resetAllFilters();
-        handleFilterChange();
     });
 
     const queryString = window.location.pathname.split('/');

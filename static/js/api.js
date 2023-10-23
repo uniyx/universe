@@ -27,8 +27,8 @@ export async function fetchSeasons() {
     return data.seasons.map(season => season.title);
 }
 
-export async function fetchObjekts(address, nextStartAfter, memberValues, seasonValues, classValues, transferableValues) {
-    let apiUrl = `https://api.cosmo.fans/objekt/v1/owned-by/${address}?sort=newest`;
+export async function fetchObjekts(address, nextStartAfter, memberValues, seasonValues, classValues, transferableValues, sortOption = 'newest') {
+    let apiUrl = `https://api.cosmo.fans/objekt/v1/owned-by/${address}?sort=${sortOption}`;
 
     if (memberValues && memberValues.length > 0) {
         apiUrl += `&member=${memberValues.join(',')}`;
@@ -46,4 +46,15 @@ export async function fetchObjekts(address, nextStartAfter, memberValues, season
 
     const response = await fetch(apiUrl);
     return response.json();
+}
+
+export async function searchUsers(query) {
+    try {
+        const response = await fetch(`/api/search/${query}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching search results:', error);
+        throw error;
+    }
 }
