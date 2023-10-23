@@ -43,9 +43,6 @@ function createObjektElem(objekt) {
     return colElem;
 }
 
-
-
-
 async function fetchAddress(query) {
     const response = await fetch(`https://api.cosmo.fans/user/v1/search?query=${query}&sort=newest`);
     const data = await response.json();
@@ -64,26 +61,26 @@ async function loadObjekts() {
     let apiUrl = `https://api.cosmo.fans/objekt/v1/owned-by/${address}?sort=newest`;
 
     // Append filtering parameters
-    const memberValues = Array.from(document.querySelectorAll('#memberFilterList input:checked'))
-        .map(input => input.value);
+    const memberValues = Array.from(document.querySelectorAll('#memberFilterList .clickable-option.active'))
+        .map(li => li.innerText);
     if (memberValues.length > 0) {
         apiUrl += `&member=${memberValues.join(',')}`;
     }
 
-    const seasonValues = Array.from(document.querySelectorAll('#seasonFilterList input:checked'))
-        .map(option => option.value);
+    const seasonValues = Array.from(document.querySelectorAll('#seasonFilterList .clickable-option.active'))
+        .map(li => li.innerText);
     if (seasonValues.length > 0) {
         apiUrl += `&season=${seasonValues.join(',')}`;
     }
 
-    const classValues = Array.from(document.querySelectorAll('#classFilterList input:checked'))
-        .map(option => option.value);
+    const classValues = Array.from(document.querySelectorAll('#classFilterList .clickable-option.active'))
+        .map(li => li.innerText);
     if (classValues.length > 0) {
         apiUrl += `&class=${classValues.join(',')}`;
     }
 
-    const transferableValues = Array.from(document.querySelectorAll('#transferableFilterList input:checked'))
-        .map(input => input.value);
+    const transferableValues = Array.from(document.querySelectorAll('#transferableFilterList .clickable-option.active'))
+        .map(li => li.innerText);
     console.log(transferableValues);
     if (transferableValues.length === 1) {
         apiUrl += `&transferable=${transferableValues[0]}`;
@@ -113,8 +110,10 @@ async function loadObjekts() {
     loading = false;
 }
 
+
 // Reset variables and reload objekts when a filter changes
 function handleFilterChange() {
+    console.log("handleFilterChange called");
     // Clear previous objekts from the grid
     gridElem.innerHTML = '';
 
@@ -130,23 +129,31 @@ document.addEventListener('DOMContentLoaded', function () {
     function populateMultiSelectDropdown(array, elementId) {
         array.forEach(item => {
             let li = document.createElement('li');
-
-            let input = document.createElement('input');
-            input.type = 'checkbox';
-            input.id = `${elementId}-${item}`;
-            input.value = item;
-            input.classList.add('form-check-input');  // Bootstrap class
-
-            let label = document.createElement('label');
-            label.htmlFor = `${elementId}-${item}`;
-            label.innerText = item;
-            label.classList.add('form-check-label');  // Bootstrap class
-
-            li.appendChild(input);
-            li.appendChild(label);
+            li.className = 'clickable-option';
+            li.innerText = item;
+    
+            li.addEventListener('click', function(e) {
+                // Toggle the active state
+                if (li.classList.contains('active')) {
+                    li.classList.remove('active');
+                } else {
+                    li.classList.add('active');
+                }
+                
+                // Retrieve all active items for this dropdown
+                let activeItems = [...document.querySelectorAll(`#${elementId} .clickable-option.active`)]
+                    .map(activeItem => activeItem.innerText);
+    
+                    handleFilterChange();
+                console.log(`Selected items for ${elementId}:`, activeItems);
+                
+                // Prevent the dropdown from closing after a selection
+                e.stopPropagation();
+            });
+    
             document.getElementById(elementId).appendChild(li);
         });
-    }
+    }    
 
     // Fetch members from both tripleS and artms, then combine and populate
     Promise.all([
@@ -181,12 +188,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     populateMultiSelectDropdown(classes, 'classFilterList');
 
-    // Attach event listeners to the filters
-    document.getElementById('memberFilterList').addEventListener('change', handleFilterChange);
-    document.getElementById('seasonFilterList').addEventListener('change', handleFilterChange);
-    document.getElementById('classFilterList').addEventListener('change', handleFilterChange);
-    document.getElementById('transferableFilterList').addEventListener('change', handleFilterChange);
-
     // Stop click events from being propagated to parent dropdowns and prevent default Bootstrap behavior
     document.querySelectorAll('.dropdown-menu .dropdown-toggle').forEach(function (element) {
         element.addEventListener('click', function (e) {
@@ -212,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const userQuery = queryString[queryString.length - 1];
     fetchAddress(userQuery).then(addr => {
         address = addr;
-        console.log(address)
+        console.log(address);
         loadObjekts();
 
         // Directly display the userQuery as the user's name

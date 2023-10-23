@@ -37,12 +37,12 @@
                     data-bs-toggle="dropdown" aria-expanded="false">
                     Filter by Member
                 </button>
-                <ul class="dropdown-menu checkbox-menu allow-focus dark-dropdown" id="memberFilterList"
+                <ul class="dropdown-menu allow-focus dark-dropdown" id="memberFilterList"
                     aria-labelledby="memberDropdown">
-                    <!-- Checkboxes for members will be populated dynamically -->
+                    <!-- Options for members will be populated dynamically -->
                 </ul>
             </div>
-
+        
             <!-- Combined Filters Dropdown (Right side) -->
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="combinedFilters"
@@ -56,40 +56,41 @@
                             id="seasonDropdown" aria-expanded="false">
                             By Season
                         </button>
-                        <ul class="dropdown-menu checkbox-menu allow-focus dark-dropdown" id="seasonFilterList"
+                        <ul class="dropdown-menu allow-focus dark-dropdown" id="seasonFilterList"
                             aria-labelledby="seasonDropdown">
-                            <!-- Checkboxes for seasons will be populated dynamically -->
+                            <!-- Options for seasons will be populated dynamically -->
                         </ul>
                     </div>
-
+        
                     <!-- Class Multi-select Dropdown -->
                     <div class="mb-3">
                         <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" id="classDropdown"
                             aria-expanded="false">
                             By Class
                         </button>
-                        <ul class="dropdown-menu checkbox-menu allow-focus dark-dropdown" id="classFilterList"
+                        <ul class="dropdown-menu allow-focus dark-dropdown" id="classFilterList"
                             aria-labelledby="classDropdown">
-                            <!-- Checkboxes for classes will be populated dynamically -->
+                            <!-- Options for classes will be populated dynamically -->
                         </ul>
                     </div>
-
+        
                     <!-- Transferability Multi-select Dropdown -->
                     <div>
                         <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button"
                             id="transferableDropdown" aria-expanded="false">
                             By Transferability
                         </button>
-                        <ul class="dropdown-menu checkbox-menu allow-focus dark-dropdown" id="transferableFilterList"
+                        <ul class="dropdown-menu allow-focus dark-dropdown" id="transferableFilterList"
                             aria-labelledby="transferableDropdown">
-                            <!-- Checkboxes for transferability will be populated dynamically -->
-                            <li><input type="checkbox" value="true"> Transferable</li>
-                            <li><input type="checkbox" value="false"> Non-Transferable</li>
+                            <!-- Options for transferability will be clickable -->
+                            <li class="clickable-option" data-value="true">Transferable</li>
+                            <li class="clickable-option" data-value="false">Non-Transferable</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
+        
 
 
 

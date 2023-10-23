@@ -139,10 +139,58 @@ a:hover {
     color: #fff; /* White text on hover/focus */
 }
 
-.checkbox-menu {
-    max-height: 500px;  /* or whatever maximum height you prefer */
+#memberFilterList {
+    max-height: 500px;  /* or any desired height */
     overflow-y: auto;
 }
+
+#memberFilterList::-webkit-scrollbar {
+    width: 5px;
+}
+
+#memberFilterList::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+#memberFilterList::-webkit-scrollbar-thumb {
+    background-color: #888;
+}
+
+#memberFilterList::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+/* Styles for clickable dropdown options */
+.dropdown-menu .clickable-option {
+    cursor: pointer;
+    padding: 10px 20px;  /* Adjust padding as per your design preference */
+}
+
+.dropdown-menu .clickable-option:hover {
+    background-color: #454545;  /* Light grey color for hover. Adjust the color as needed */
+}
+
+.dropdown-menu .clickable-option.active {
+    background-color: #454545;  /* A slightly darker grey for the active state. Adjust the color as needed */
+}
+
+/* For the entire page */
+body::-webkit-scrollbar, html::-webkit-scrollbar {
+    width: 5px;
+}
+
+body::-webkit-scrollbar-track, html::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+body::-webkit-scrollbar-thumb, html::-webkit-scrollbar-thumb {
+    background-color: #888;
+}
+
+body::-webkit-scrollbar-thumb:hover, html::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
 
 /* Improved margins and padding */
 .checkbox-menu li {
