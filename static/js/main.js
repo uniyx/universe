@@ -10,8 +10,6 @@ let loading = false;
 let hasMore = true;
 
 export async function loadObjekts() {
-    console.log("loadObjekts called");
-
     if (loading || !hasMore) return;
     loading = true;
 
@@ -41,7 +39,6 @@ export async function loadObjekts() {
 }
 
 function fetchDataAfterFilterChange() {
-    console.log("fetchDataAfterFilterChange called");
     hasMore = true;
     nextStartAfter = null;
     loadObjekts();
@@ -62,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
         api.fetchMembers()
     ]).then(([members]) => {
         // Populate members from ARTMS
-        ui.populateMultiSelectDropdown(members.artmsMembers, 'memberFilterList');
+        ui.populateMultiSelectDropdown(members.artmsMembers, 'memberFilterList', "member");
     
         // Add a separator between artists groups
         const separator = document.createElement('li');
@@ -70,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('memberFilterList').appendChild(separator);
     
         // Populate members from TRIPLES
-        ui.populateMultiSelectDropdown(members.tripleSMembers, 'memberFilterList');
+        ui.populateMultiSelectDropdown(members.tripleSMembers, 'memberFilterList', "member");
     
     }).catch(error => {
         console.error('Error fetching members:', error);
@@ -92,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     api.fetchAddress(userQuery).then(addr => {
         address = addr;
-        console.log(address);
         loadObjekts();
 
         document.getElementById('userName').textContent = userQuery;

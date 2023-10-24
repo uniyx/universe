@@ -54,35 +54,17 @@ export function createObjektElem(objekt) {
     return colElem;
 }
 
-
-
-
-
-
 export function clearGrid() {
     gridElem.innerHTML = '';
 }
 
 export function handleFilterChange() {
-    console.log("handleFilterChange called");
-    
-    // Reset the sorting back to "newest"
-    let activeSort = document.querySelector('#sortFilterList .clickable-option.active');
-    if (activeSort) {
-        activeSort.classList.remove('active');
-    }
-    let newestOption = document.querySelector('#sortFilterList .clickable-option:nth-child(1)');
-    if (newestOption) {
-        newestOption.classList.add('active');
-    }
-    document.getElementById('sortDropdown').innerText = 'Newest';
 
     clearGrid();
 
     // Emit a custom event indicating that the filters have changed
     document.dispatchEvent(new Event('filtersChanged'));
 }
-
 
 export function populateGrid(objekts) {
     for (const objekt of objekts) {
@@ -95,25 +77,28 @@ export function updateTotalObjektsCount(count) {
     document.getElementById('objektCount').textContent = `${count || 0} Objekts`;
 }
 
-export function populateMultiSelectDropdown(membersArray, elementId) {
-    console.log(elementId);
+export function populateMultiSelectDropdown(array, elementId, dropdownType = "text") {
 
-    membersArray.forEach(member => {
+    array.forEach(item => {
         let li = document.createElement('li');
         li.className = 'clickable-option';
 
-        // Create an image element and append it to the list item
-        let img = document.createElement('img');
-        img.src = member.profileImageUrl;
-        img.alt = member.name;
-        img.style.borderRadius = "50%";
-        img.style.width = "30px";
-        img.style.marginRight = "8px";
-        li.appendChild(img);
+        if (dropdownType === "member") {
+            // For members, expect item to be an object with name and profileImageUrl
+            let img = document.createElement('img');
+            img.src = item.profileImageUrl;
+            img.alt = item.name;
+            img.style.borderRadius = "50%";
+            img.style.width = "30px";
+            img.style.marginRight = "8px";
+            li.appendChild(img);
 
-        // Append member name
-        let nameNode = document.createTextNode(member.name);
-        li.appendChild(nameNode);
+            let nameNode = document.createTextNode(item.name);
+            li.appendChild(nameNode);
+        } else {
+            // For other dropdown types, just expect text items
+            li.innerText = item;
+        }
 
         li.addEventListener('click', function (e) {
             // Toggle the active state
@@ -143,12 +128,13 @@ document.getElementById('sortFilterList').addEventListener('click', function(e) 
         // Select the clicked option
         e.target.classList.add('active');
 
+        console.log("TEST!!2")
+
         // Update the button label to reflect the selected option
         document.getElementById('sortDropdown').innerText = e.target.innerText;
         handleFilterChange();
     }
 });
-
 
 export function resetAllFilters() {
     const activeOptions = document.querySelectorAll('.clickable-option.active');
@@ -201,6 +187,7 @@ export const filters = {
     },
 
     get sortOption() {
+        console.log("sort")
         return Array.from(document.querySelectorAll('#sortFilterList .clickable-option.active'))
             .map(li => li.innerText);
     }

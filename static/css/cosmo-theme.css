@@ -1,9 +1,14 @@
-/* Universal Dark/Cosmo Theme */
+/* === Universal Dark/Cosmo Theme === */
+
+@font-face {
+    font-family: 'Helvetica';
+    src: url('/static/fonts/Helvetica.ttf');
+}
 
 body {
     background-color: #020916;
     color: #FFFFFF;
-    font-family: Arial, sans-serif;
+    font-family: Helvetica, sans-serif;
     margin: 0;
     padding: 0;
     height: 100%;
@@ -21,6 +26,15 @@ a:hover {
     text-decoration: underline;
 }
 
+.bg-dark-enhanced {
+    background-color: #222;  /* or any other dark color */
+}
+
+.text-light-enhanced {
+    color: #ddd;  /* or any other light color */
+}
+
+/* === Container === */
 .container {
     max-width: 1200px;
     margin: auto;
@@ -28,6 +42,7 @@ a:hover {
     width: 60%; /* Adjust width as needed */
 }
 
+/* === Headers === */
 .header {
     margin-bottom: 20px;
 }
@@ -36,41 +51,7 @@ a:hover {
     margin-bottom: 30px;
 }
 
-.objekt-card {
-    margin-bottom: 0px;
-    border: none;
-    background-color: transparent; /* Use transparent instead of none */
-    border-radius: 5px;
-    transition: transform 0.2s;
-}
-
-.objekt-image {
-    transition: transform 0.3s; /* This ensures smooth transition for both hover and un-hover */
-    width: 100%;
-    height: auto;
-    margin-bottom: 5px;
-    border-radius: 5px 5px 0 0;
-    cursor: pointer; /* Indicating that the image is clickable */
-}
-
-.objekt-card .objekt-image:hover {
-    transform: scale(1.05);
-}
-
-.objekt-info p {
-    margin-bottom: 5px;
-}
-
-.flip-button {
-    color: #020916;
-    transition: 0.3s;  /* Smooth transition for hover effect */
-}
-
-.flip-button:hover {
-    color: #dddddd;  /* Light grey on hover for subtle effect */
-}
-
-/* Styles for search bar */
+/* === Search Bar === */
 .search-bar input {
     border-radius: 25px;
     text-align: center;
@@ -82,98 +63,21 @@ a:hover {
     padding-left: 2rem;
 }
 
-/* Styles for the dropdown */
+/* === Dropdown Styles === */
 #searchResults {
     position: absolute;
-    max-height: 300px; /* Adjust as needed */
+    max-height: 300px;
     overflow-y: auto;
     width: 100%;
-    z-index: 999; /* To ensure the dropdown appears above other elements */
+    z-index: 999;
 }
 
 #searchResults ul {
     margin-top: 0;
 }
 
-#searchResults li {
-    background-color: #333; /* Dark theme color */
-    border: 1px solid #666; /* Border color */
-}
-
-#resetFilters {
-    background-color: #343a40;
-    border-color: #555
-}
-
-/* Custom Dropdown CSS */
-.dropdown-item.bg-dark {
-    background-color: #343a40 !important; /* Bootstrap's dark gray */
-}
-
-.dropdown-item.bg-dark:hover,
-.dropdown-item.bg-dark:focus {
-    background-color: #23272b !important; /* A slightly darker shade for hover/focus */
-}
-
-.dark-dropdown {
-    background-color: #2a2a2a;
-    color: white;
-    border: none;
-}
-
-.dark-dropdown:focus {
-    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
-}
-
-.btn-dark {
-    background-color: #333;
-    color: #FFF;
-}
-
-.btn-dark:hover {
-    background-color: #555;
-    color: #FFF;
-}
-
-/* Dark dropdown styling */
-.dropdown-menu.dark-dropdown {
-    background-color: #2e2e2e; /* Dark background */
-    border-color: #555;
-}
-
-.dark-dropdown .dropdown-item {
-    color: #ddd; /* Light text on dark background */
-}
-
-.dark-dropdown .dropdown-item:focus,
-.dark-dropdown .dropdown-item:hover {
-    background-color: #454545; /* Slightly lighter background for hover/focus */
-    color: #fff; /* White text on hover/focus */
-}
-
-#memberFilterList {
-    max-height: 500px;  /* or any desired height */
-    overflow-y: auto;
-}
-
-#memberFilterList::-webkit-scrollbar {
-    width: 5px;
-}
-
-#memberFilterList::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
-}
-
-#memberFilterList::-webkit-scrollbar-thumb {
-    background-color: #888;
-}
-
-#memberFilterList::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
-}
-
-/* Styles for clickable dropdown options */
 .dropdown-menu .clickable-option {
+    color: #FFFFFF;
     cursor: pointer;
     padding: 10px 20px;  /* Adjust padding as per your design preference */
 }
@@ -186,51 +90,67 @@ a:hover {
     background-color: #454545;  /* A slightly darker grey for the active state. Adjust the color as needed */
 }
 
-.bg-dark-enhanced {
-    background-color: #222;  /* or any other dark color */
+.dropdown-item.bg-dark {
+    background-color: #343a40;
 }
 
-.text-light-enhanced {
-    color: #ddd;  /* or any other light color */
+.dropdown-item.bg-dark:hover,
+.dropdown-item.bg-dark:focus {
+    background-color: #23272b;
 }
 
-/* For the entire page */
-body::-webkit-scrollbar, html::-webkit-scrollbar {
-    width: 5px;
+.dropdown-menu.dark-dropdown {
+    background-color: #2e2e2e;
+    border-color: #555;
 }
 
-body::-webkit-scrollbar-track, html::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
+/* === Buttons === */
+.btn-dark {
+    background-color: #333;
+    color: #FFF;
 }
 
-body::-webkit-scrollbar-thumb, html::-webkit-scrollbar-thumb {
-    background-color: #888;
-}
-
-body::-webkit-scrollbar-thumb:hover, html::-webkit-scrollbar-thumb:hover {
+.btn-dark:hover {
     background-color: #555;
 }
 
-
-/* Improved margins and padding */
-.checkbox-menu li {
-    margin: 0;
-    padding: 5px 10px; /* Adjust as needed */
+/* === Objekt Cards === */
+.objekt-card {
+    margin-bottom: 0px;
+    border: none;
+    background-color: transparent;
+    border-radius: 5px;
+    transition: transform 0.2s;
 }
 
-.checkbox-menu li label {
-    margin-bottom: 0;
-    padding-left: 5px;
+.objekt-image {
+    transition: transform 0.3s;
+    width: 100%;
+    height: auto;
+    margin-bottom: 5px;
+    border-radius: 5px 5px 0 0;
+    cursor: pointer;
 }
 
-.btn-secondary.dropdown-toggle {
-    background-color: #343a40; /* Bootstrap's .bg-dark color */
-    border-color: #555;
-    color: #ddd;
+.objekt-card .objekt-image:hover {
+    transform: scale(1.05);
 }
 
-.btn-secondary.dropdown-toggle:hover,
-.btn-secondary.dropdown-toggle:focus {
-    background-color: #232323; /* Darker version for hover/focus */
-    color: #fff;
+.flip-button {
+    color: #020916;
+    transition: 0.3s;
 }
+
+.flip-button:hover {
+    color: #dddddd;
+}
+
+/* === Additional Styles === */
+/* ... (Any other component or miscellaneous styles can go here) ... */
+
+/* === Scrollbar Styling === */
+body::-webkit-scrollbar, html::-webkit-scrollbar {
+    width: 5px;
+}
+/* ... (remaining scrollbar styles here) ... */
+

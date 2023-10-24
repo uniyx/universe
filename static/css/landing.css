@@ -60,3 +60,21 @@ body {
     background-color: #23272b !important;
     /* A slightly darker shade for hover/focus */
 }
+
+@font-face {
+    font-family: 'Helvetica Bold';
+    src: url('/static/fonts/Helvetica-Bold.ttf');
+}
+
+.display-3 {
+    font-family: 'Helvetica Bold', sans-serif;
+}
+
+@font-face {
+    font-family: 'Helvetica';
+    src: url('/static/fonts/Helvetica.ttf');
+}
+
+.lead {
+    font-family: 'Helvetica', sans-serif;
+}
