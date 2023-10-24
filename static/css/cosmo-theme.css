@@ -61,6 +61,14 @@ a:hover {
     margin-bottom: 5px;
 }
 
+.flip-button {
+    color: #020916;
+    transition: 0.3s;  /* Smooth transition for hover effect */
+}
+
+.flip-button:hover {
+    color: #dddddd;  /* Light grey on hover for subtle effect */
+}
 
 /* Styles for search bar */
 .search-bar input {
@@ -176,6 +184,14 @@ a:hover {
 
 .dropdown-menu .clickable-option.active {
     background-color: #454545;  /* A slightly darker grey for the active state. Adjust the color as needed */
+}
+
+.bg-dark-enhanced {
+    background-color: #222;  /* or any other dark color */
+}
+
+.text-light-enhanced {
+    color: #ddd;  /* or any other light color */
 }
 
 /* For the entire page */

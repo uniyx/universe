@@ -1,5 +1,7 @@
 // ui.js
 
+import * as modal from './objektModal.js';
+
 export const classes = [
     "Welcome", "First", "Special", "Double", "Zero"
 ];
@@ -11,34 +13,51 @@ export function createObjektElem(objekt) {
     colElem.className = 'col mt-2';
 
     const cardElem = document.createElement('div');
-    cardElem.className = 'objekt-card';
+    cardElem.className = 'objekt-card position-relative';  // position-relative for the flip button
 
     const imgElem = document.createElement('img');
     imgElem.className = 'objekt-image';
     imgElem.src = objekt.frontImage.replace('/4x', '/1x');
     imgElem.alt = `Objekt ${objekt.objektNo}`;
 
-    imgElem.addEventListener('click', function () {
+    // Flip button
+    const flipButton = document.createElement('button');
+    flipButton.className = 'btn position-absolute top-0 end-0 p-1 flip-button';  // Added custom class for flip button styling
+    flipButton.innerHTML = '<i class="fas fa-redo"></i>';  // FontAwesome icon for flipping
+    flipButton.style.zIndex = '1';  // Ensure button stays on top
+    flipButton.addEventListener('click', function(event) {
         if (imgElem.src === objekt.frontImage.replace('/4x', '/1x')) {
             imgElem.src = objekt.backImage.replace('/4x', '/1x');
         } else {
             imgElem.src = objekt.frontImage.replace('/4x', '/1x');
         }
+        event.stopPropagation();  // Avoid modal display on button click
     });
 
     const infoElem = document.createElement('div');
-    infoElem.className = 'objekt-info';
+    infoElem.className = 'objekt-info text-center';  // text-center to center the objekt text
 
-    const memberElem = document.createElement('p');
+    const memberElem = document.createElement('span');
     memberElem.innerText = `${objekt.member} ${objekt.collectionNo}`;
-
     infoElem.appendChild(memberElem);
 
     cardElem.appendChild(imgElem);
+    cardElem.appendChild(flipButton);  // Add flip button to card
     cardElem.appendChild(infoElem);
+
+    cardElem.addEventListener('click', function() {
+        modal.displayObjektModal(objekt);
+    });
+
     colElem.appendChild(cardElem);
+
     return colElem;
 }
+
+
+
+
+
 
 export function clearGrid() {
     gridElem.innerHTML = '';
@@ -76,12 +95,25 @@ export function updateTotalObjektsCount(count) {
     document.getElementById('objektCount').textContent = `${count || 0} Objekts`;
 }
 
-export function populateMultiSelectDropdown(array, elementId) {
+export function populateMultiSelectDropdown(membersArray, elementId) {
     console.log(elementId);
-    array.forEach(item => {
+
+    membersArray.forEach(member => {
         let li = document.createElement('li');
         li.className = 'clickable-option';
-        li.innerText = item;
+
+        // Create an image element and append it to the list item
+        let img = document.createElement('img');
+        img.src = member.profileImageUrl;
+        img.alt = member.name;
+        img.style.borderRadius = "50%";
+        img.style.width = "30px";
+        img.style.marginRight = "8px";
+        li.appendChild(img);
+
+        // Append member name
+        let nameNode = document.createTextNode(member.name);
+        li.appendChild(nameNode);
 
         li.addEventListener('click', function (e) {
             // Toggle the active state

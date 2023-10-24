@@ -15,10 +15,7 @@ export async function fetchMembers() {
         fetch('https://api.cosmo.fans/artist/v1/artms').then(response => response.json())
     ]);
 
-    const tripleSMembers = tripleSData.artist.members.map(member => member.name);
-    const artmsMembers = artmsData.artist.members.map(member => member.name);
-
-    return { tripleSMembers, artmsMembers };
+    return { tripleSMembers: tripleSData.artist.members, artmsMembers: artmsData.artist.members };
 }
 
 export async function fetchSeasons() {

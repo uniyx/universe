@@ -2,6 +2,7 @@
 
 import * as api from './api.js';
 import * as ui from './ui.js';
+import * as modal from './objektModal.js';
 
 let address = '';
 let nextStartAfter = null;
