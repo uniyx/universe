@@ -128,8 +128,6 @@ document.getElementById('sortFilterList').addEventListener('click', function(e) 
         // Select the clicked option
         e.target.classList.add('active');
 
-        console.log("TEST!!2")
-
         // Update the button label to reflect the selected option
         document.getElementById('sortDropdown').innerText = e.target.innerText;
         handleFilterChange();
@@ -137,10 +135,18 @@ document.getElementById('sortFilterList').addEventListener('click', function(e) 
 });
 
 export function resetAllFilters() {
+    // Remove the active class from all active options
     const activeOptions = document.querySelectorAll('.clickable-option.active');
     activeOptions.forEach(option => {
         option.classList.remove('active');
     });
+
+    // Set the sorting dropdown back to "Newest"
+    let newestOption = document.querySelector('#sortFilterList .clickable-option:nth-child(1)');
+    if (newestOption) {
+        newestOption.classList.add('active');
+    }
+    document.getElementById('sortDropdown').innerText = 'Newest';
 
     handleFilterChange();
 }
@@ -187,8 +193,43 @@ export const filters = {
     },
 
     get sortOption() {
-        console.log("sort")
         return Array.from(document.querySelectorAll('#sortFilterList .clickable-option.active'))
             .map(li => li.innerText);
     }
 };
+
+export function setFilterActive(filterType, value) {
+    // Common function to toggle 'active' class for li-based filters
+    function toggleActiveClass(listSelector, value) {
+        const options = document.querySelectorAll(listSelector + ' .clickable-option');
+        options.forEach(option => {
+            if (option.textContent.trim() === value) {
+                option.classList.add('active');
+            } else {
+                option.classList.remove('active');
+            }
+        });
+    }
+
+    switch (filterType) {
+        case 'sort':
+            // If sort is using li elements as well
+            toggleActiveClass('#sortFilterList', value);
+            break;
+        case 'member':
+            toggleActiveClass('#memberFilterList', value);
+            break;
+        case 'season':
+            toggleActiveClass('#seasonFilterList', value);
+            break;
+        case 'class':
+            toggleActiveClass('#classFilterList', value);
+            break;
+        case 'transferable':
+            // Assuming transferable uses li elements as well
+            toggleActiveClass('#transferableFilterList', value === 'True' ? 'True' : 'False');
+            break;
+        default:
+            console.warn(`Filter type ${filterType} is not recognized.`);
+    }
+}
