@@ -40,6 +40,7 @@ export async function loadObjekts() {
 function fetchDataAfterFilterChange() {
     hasMore = true;
     nextStartAfter = null;
+    ui.updateURLParameters();
     loadObjekts();
 }
 

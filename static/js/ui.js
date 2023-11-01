@@ -233,3 +233,24 @@ export function setFilterActive(filterType, value) {
             console.warn(`Filter type ${filterType} is not recognized.`);
     }
 }
+
+// Function to update URL parameters based on current filter selections
+export function updateURLParameters() {
+    const params = new URLSearchParams();
+
+    // Only add parameters that have values
+    const addParamIfNotEmpty = (key, value) => {
+        if (value.length > 0 && !(key === 'sort' && value[0] === 'Newest')) { // Skip 'Newest' for sort, as it's standard
+            params.set(key, value.join(','));
+        }
+    };
+
+    addParamIfNotEmpty('member', filters.memberValues);
+    addParamIfNotEmpty('season', filters.seasonValues);
+    addParamIfNotEmpty('class', filters.classValues);
+    addParamIfNotEmpty('transferable', filters.transferableValues);
+    addParamIfNotEmpty('sort', filters.sortOption);
+
+    // Update the URL without reloading the page
+    window.history.pushState({}, '', `${location.pathname}?${params}`);
+}
